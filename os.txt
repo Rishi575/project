@@ -1,0 +1,1768 @@
+harris jayaram
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+1. Greatest of Three Numbers:
+
+bash
+
+#!/bin/bash
+
+echo "Enter three numbers:"
+read num1
+read num2
+read num3
+
+if [ "$num1" -gt "$num2" ] && [ "$num1" -gt "$num3" ]; then
+    echo "The greatest number is: $num1"
+elif [ "$num2" -gt "$num1" ] && [ "$num2" -gt "$num3" ]; then
+    echo "The greatest number is: $num2"
+else
+    echo "The greatest number is: $num3"
+fi
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+2. Factorial of N Numbers:
+
+bash
+
+#!/bin/bash
+
+echo "Enter a number:"
+read num
+
+factorial=1
+
+for ((i=1; i<=num; i++)); do
+    factorial=$((factorial * i))
+done
+
+echo "Factorial of $num is: $factorial"
+///////////////////////////////////////////////////////////////////////////////////////////////////
+3. Sum of N Numbers:
+
+bash
+
+#!/bin/bash
+
+echo "Enter the count of numbers:"
+read count
+
+sum=0
+
+echo "Enter $count numbers:"
+for ((i=1; i<=count; i++)); do
+    read num
+    sum=$((sum + num))
+done
+
+echo "Sum of the numbers is: $sum"
+///////////////////////////////////////////////////////////////////////////////////////////////////
+4. Number is Odd or Even:
+
+bash
+
+#!/bin/bash
+
+echo "Enter a number:"
+read num
+
+if [ $((num % 2)) -eq 0 ]; then
+    echo "$num is even."
+else
+    echo "$num is odd."
+fi
+///////////////////////////////////////////////////////////////////////////////////////////////////
+5. Fibonacci Series:
+
+bash
+
+#!/bin/bash
+
+echo "Enter the number of terms for Fibonacci series:"
+read n
+
+a=0
+b=1
+
+echo "Fibonacci series:"
+for ((i=0; i<n; i++)); do
+    echo -n "$a "
+    temp=$((a + b))
+    a=$b
+    b=$temp
+done
+echo
+///////////////////////////////////////////////////////////////////////////////////////////////////
+6. Multiplication Table:
+
+bash
+
+#!/bin/bash
+
+echo "Enter a number for the multiplication table:"
+read num
+
+echo "Multiplication table for $num:"
+for ((i=1; i<=10; i++)); do
+    echo "$num x $i = $((num * i))"
+done
+///////////////////////////////////////////////////////////////////////////////////////////////////
+7. Swapping of Two Numbers:
+
+bash
+
+#!/bin/bash
+
+echo "Enter two numbers:"
+read num1
+read num2
+
+echo "Before swapping: num1=$num1, num2=$num2"
+
+temp=$num1
+num1=$num2
+num2=$temp
+
+echo "After swapping: num1=$num1, num2=$num2"
+///////////////////////////////////////////////////////////////////////////////////////////////////
+8. Palindrome Check:
+
+bash
+
+#!/bin/bash
+
+echo "Enter a string or number:"
+read input
+
+reverse=$(echo $input | rev)
+
+if [ "$input" = "$reverse" ]; then
+    echo "$input is a palindrome."
+else
+    echo "$input is not a palindrome."
+fi
+///////////////////////////////////////////////////////////////////////////////////////////////////
+9. Positive or Negative Number:
+
+bash
+
+#!/bin/bash
+
+echo "Enter a number:"
+read num
+
+if [ $num -gt 0 ]; then
+    echo "$num is a positive number."
+elif [ $num -lt 0 ]; then
+    echo "$num is a negative number."
+else
+    echo "$num is zero."
+fi
+///////////////////////////////////////////////////////////////////////////////////////////////////
+10. Area of Different Shapes:
+
+bash
+
+#!/bin/bash
+
+echo "Choose a shape (1. Circle, 2. Rectangle, 3. Triangle):"
+read choice
+
+case $choice in
+    1)
+        echo "Enter the radius of the circle:"
+        read radius
+        area=$(echo "3.14159 * $radius * $radius" | bc)
+        echo "Area of the circle: $area"
+        ;;
+    2)
+        echo "Enter the length of the rectangle:"
+        read length
+        echo "Enter the width of the rectangle:"
+        read width
+        area=$((length * width))
+        echo "Area of the rectangle: $area"
+        ;;
+    3)
+        echo "Enter the base of the triangle:"
+        read base
+        echo "Enter the height of the triangle:"
+        read height
+        area=$(echo "0.5 * $base * $height" | bc)
+        echo "Area of the triangle: $area"
+        ;;
+    *)
+        echo "Invalid choice."
+        ;;
+esac
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+1. Implementing LS System Calls:
+
+c
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <dirent.h>
+
+int main() {
+    struct dirent *de;
+    DIR *dr = opendir(".");
+    
+    if (dr == NULL) {
+        printf("Could not open current directory\n");
+        return 1;
+    }
+
+    printf("Files in current directory:\n");
+    while ((de = readdir(dr)) != NULL)
+        printf("%s\n", de->d_name);
+
+    closedir(dr);
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////.
+2. Implementing Fork() System Calls:
+
+c
+
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    pid_t pid = fork();
+
+    if (pid == 0) {
+        printf("Child process\n");
+    } else if (pid > 0) {
+        printf("Parent process\n");
+    } else {
+        printf("Fork failed\n");
+        return 1;
+    }
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+3. Implementing Open() System Calls:
+
+c
+
+#include <stdio.h>
+#include <fcntl.h>
+
+int main() {
+    int fd = open("example.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+
+    if (fd == -1) {
+        printf("Error opening file\n");
+        return 1;
+    }
+
+    write(fd, "Hello, Open() System Call!", 26);
+    close(fd);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+4. Implementing Write() System Calls:
+
+c
+
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    int fd = open("example.txt", O_WRONLY | O_APPEND);
+
+    if (fd == -1) {
+        printf("Error opening file\n");
+        return 1;
+    }
+
+    write(fd, " Appending text using write() System Call.", 40);
+    close(fd);
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+5. Implementing Read() System Calls:
+
+c
+
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    int fd = open("example.txt", O_RDONLY);
+
+    if (fd == -1) {
+        printf("Error opening file\n");
+        return 1;
+    }
+
+    char buffer[100];
+    read(fd, buffer, sizeof(buffer));
+    close(fd);
+
+    printf("Read from file: %s\n", buffer);
+
+    return 0;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+FCFS with User Input:
+c
+Copy code
+#include <stdio.h>
+
+void fcfs(int processes[], int n, int burst_time[]) {
+    int waiting_time[n], turnaround_time[n];
+
+    waiting_time[0] = 0;
+    turnaround_time[0] = burst_time[0];
+
+    for (int i = 1; i < n; i++) {
+        waiting_time[i] = turnaround_time[i - 1];
+        turnaround_time[i] = waiting_time[i] + burst_time[i];
+    }
+
+    float average_waiting_time = 0, average_turnaround_time = 0;
+    for (int i = 0; i < n; i++) {
+        average_waiting_time += waiting_time[i];
+        average_turnaround_time += turnaround_time[i];
+    }
+
+    average_waiting_time /= n;
+    average_turnaround_time /= n;
+
+    printf("Process\tBurst Time\tWaiting Time\tTurnaround Time\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d\t%d\t\t%d\t\t%d\n", processes[i], burst_time[i], waiting_time[i], turnaround_time[i]);
+    }
+
+    printf("\nAverage Waiting Time: %.2f\n", average_waiting_time);
+    printf("Average Turnaround Time: %.2f\n", average_turnaround_time);
+}
+
+int main() {
+    int n;
+
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+
+    int processes[n];
+    int burst_time[n];
+
+    printf("Enter burst times for each process:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Process %d: ", i + 1);
+        scanf("%d", &burst_time[i]);
+        processes[i] = i + 1;
+    }
+
+    fcfs(processes, n, burst_time);
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+SJF with User Input:
+c
+Copy code
+#include <stdio.h>
+
+void sjf(int processes[], int n, int burst_time[]) {
+    int waiting_time[n], turnaround_time[n];
+
+    waiting_time[0] = 0;
+    turnaround_time[0] = burst_time[0];
+
+    for (int i = 1; i < n; i++) {
+        waiting_time[i] = turnaround_time[i - 1];
+        turnaround_time[i] = waiting_time[i] + burst_time[i];
+    }
+
+    float average_waiting_time = 0, average_turnaround_time = 0;
+    for (int i = 0; i < n; i++) {
+        average_waiting_time += waiting_time[i];
+        average_turnaround_time += turnaround_time[i];
+    }
+
+    average_waiting_time /= n;
+    average_turnaround_time /= n;
+
+    printf("Process\tBurst Time\tWaiting Time\tTurnaround Time\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d\t%d\t\t%d\t\t%d\n", processes[i], burst_time[i], waiting_time[i], turnaround_time[i]);
+    }
+
+    printf("\nAverage Waiting Time: %.2f\n", average_waiting_time);
+    printf("Average Turnaround Time: %.2f\n", average_turnaround_time);
+}
+
+int main() {
+    int n;
+
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+
+    int processes[n];
+    int burst_time[n];
+
+    printf("Enter burst times for each process:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Process %d: ", i + 1);
+        scanf("%d", &burst_time[i]);
+        processes[i] = i + 1;
+    }
+
+    sjf(processes, n, burst_time);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+Priority Scheduling (Non-Preemptive):
+c
+Copy code
+#include <stdio.h>
+
+void priority_non_preemptive(int processes[], int n, int burst_time[], int priority[]) {
+    int waiting_time[n], turnaround_time[n];
+
+    for (int i = 0; i < n; i++) {
+        int min_priority_index = i;
+        for (int j = i + 1; j < n; j++) {
+            if (priority[j] < priority[min_priority_index]) {
+                min_priority_index = j;
+            }
+        }
+
+        // Swap priority
+        int temp_priority = priority[min_priority_index];
+        priority[min_priority_index] = priority[i];
+        priority[i] = temp_priority;
+
+        // Swap processes
+        int temp_process = processes[min_priority_index];
+        processes[min_priority_index] = processes[i];
+        processes[i] = temp_process;
+
+        // Swap burst time
+        int temp_burst = burst_time[min_priority_index];
+        burst_time[min_priority_index] = burst_time[i];
+        burst_time[i] = temp_burst;
+    }
+
+    waiting_time[0] = 0;
+    turnaround_time[0] = burst_time[0];
+
+    for (int i = 1; i < n; i++) {
+        waiting_time[i] = turnaround_time[i - 1];
+        turnaround_time[i] = waiting_time[i] + burst_time[i];
+    }
+
+    float average_waiting_time = 0, average_turnaround_time = 0;
+    for (int i = 0; i < n; i++) {
+        average_waiting_time += waiting_time[i];
+        average_turnaround_time += turnaround_time[i];
+    }
+
+    average_waiting_time /= n;
+    average_turnaround_time /= n;
+
+    printf("Process\tPriority\tBurst Time\tWaiting Time\tTurnaround Time\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d\t%d\t\t%d\t\t%d\t\t%d\n", processes[i], priority[i], burst_time[i], waiting_time[i], turnaround_time[i]);
+    }
+
+    printf("\nAverage Waiting Time: %.2f\n", average_waiting_time);
+    printf("Average Turnaround Time: %.2f\n", average_turnaround_time);
+}
+
+int main() {
+    int n;
+
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+
+    int processes[n];
+    int burst_time[n];
+    int priority[n];
+
+    printf("Enter burst times and priorities for each process:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Process %d (Burst Time Priority): ", i + 1);
+        scanf("%d %d", &burst_time[i], &priority[i]);
+        processes[i] = i + 1;
+    }
+
+    priority_non_preemptive(processes, n, burst_time, priority);
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+Round Robin Scheduling (Preemptive):
+c
+Copy code
+#include <stdio.h>
+
+#define MAX_SIZE 100
+
+void round_robin(int processes[], int n, int burst_time[], int time_quantum) {
+    int remaining_time[n];
+    int waiting_time[n], turnaround_time[n];
+
+    for (int i = 0; i < n; i++) {
+        remaining_time[i] = burst_time[i];
+        waiting_time[i] = 0;
+        turnaround_time[i] = 0;
+    }
+
+    int time = 0;
+    int flag = 0;
+
+    while (1) {
+        flag = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (remaining_time[i] > 0) {
+                flag = 1;
+
+                if (remaining_time[i] > time_quantum) {
+                    time += time_quantum;
+                    remaining_time[i] -= time_quantum;
+                } else {
+                    time += remaining_time[i];
+                    waiting_time[i] = time - burst_time[i];
+                    remaining_time[i] = 0;
+                    turnaround_time[i] = time;
+                }
+            }
+        }
+
+        if (flag == 0)
+            break;
+    }
+
+    float average_waiting_time = 0, average_turnaround_time = 0;
+    for (int i = 0; i < n; i++) {
+        average_waiting_time += waiting_time[i];
+        average_turnaround_time += turnaround_time[i];
+    }
+
+    average_waiting_time /= n;
+    average_turnaround_time /= n;
+
+    printf("Process\tBurst Time\tWaiting Time\tTurnaround Time\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d\t%d\t\t%d\t\t%d\n", processes[i], burst_time[i], waiting_time[i], turnaround_time[i]);
+    }
+
+    printf("\nAverage Waiting Time: %.2f\n", average_waiting_time);
+    printf("Average Turnaround Time: %.2f\n", average_turnaround_time);
+}
+
+int main() {
+    int n, time_quantum;
+
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+
+    int processes[n];
+    int burst_time[n];
+
+    printf("Enter burst times for each process:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Process %d: ", i + 1);
+        scanf("%d", &burst_time[i]);
+        processes[i] = i + 1;
+    }
+
+    printf("Enter time quantum for Round Robin: ");
+    scanf("%d", &time_quantum);
+
+    round_robin(processes, n, burst_time, time_quantum);
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+ Producer-Consumer problem 
+#include <stdio.h>
+#include <pthread.h>
+#include <semaphore.h>
+
+#define BUFFER_SIZE 5
+#define MAX_ITERATIONS 10
+
+int buffer[BUFFER_SIZE];
+int in = 0, out = 0;
+
+sem_t mutex, empty, full;
+
+void *producer(void *arg) {
+    int item = 1;
+
+    for (int i = 0; i < MAX_ITERATIONS; i++) {
+        sem_wait(&empty);
+        sem_wait(&mutex);
+
+        // Produce item
+        buffer[in] = item;
+        printf("Produced item %d at index %d\n", item, in);
+        in = (in + 1) % BUFFER_SIZE;
+        item++;
+
+        sem_post(&mutex);
+        sem_post(&full);
+    }
+
+    pthread_exit(NULL);
+}
+
+void *consumer(void *arg) {
+    for (int i = 0; i < MAX_ITERATIONS; i++) {
+        sem_wait(&full);
+        sem_wait(&mutex);
+
+        // Consume item
+        int item = buffer[out];
+        printf("Consumed item %d from index %d\n", item, out);
+        out = (out + 1) % BUFFER_SIZE;
+
+        sem_post(&mutex);
+        sem_post(&empty);
+    }
+
+    pthread_exit(NULL);
+}
+
+int main() {
+    pthread_t producer_thread, consumer_thread;
+
+    // Initialize semaphores
+    sem_init(&mutex, 0, 1);
+    sem_init(&empty, 0, BUFFER_SIZE);
+    sem_init(&full, 0, 0);
+
+    // Create producer and consumer threads
+    pthread_create(&producer_thread, NULL, producer, NULL);
+    pthread_create(&consumer_thread, NULL, consumer, NULL);
+
+    // Wait for threads to finish
+    pthread_join(producer_thread, NULL);
+    pthread_join(consumer_thread, NULL);
+
+    // Destroy semaphores
+    sem_destroy(&mutex);
+    sem_destroy(&empty);
+    sem_destroy(&full);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+ Dining Philosophers problem 
+
+#include <stdio.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <unistd.h>
+
+#define NUM_PHILOSOPHERS 5
+
+enum { THINKING, HUNGRY, EATING } state[NUM_PHILOSOPHERS];
+sem_t mutex, phil_sem[NUM_PHILOSOPHERS];
+
+void test(int phil_id) {
+    if (state[phil_id] == HUNGRY && state[(phil_id + 1) % NUM_PHILOSOPHERS] != EATING &&
+        state[(phil_id + NUM_PHILOSOPHERS - 1) % NUM_PHILOSOPHERS] != EATING) {
+
+        state[phil_id] = EATING;
+        printf("Philosopher %d is eating\n", phil_id + 1);
+        sem_post(&phil_sem[phil_id]);
+    }
+}
+
+void take_forks(int phil_id) {
+    sem_wait(&mutex);
+    state[phil_id] = HUNGRY;
+    printf("Philosopher %d is hungry\n", phil_id + 1);
+    test(phil_id);
+    sem_post(&mutex);
+    sem_wait(&phil_sem[phil_id]);
+}
+
+void put_forks(int phil_id) {
+    sem_wait(&mutex);
+    state[phil_id] = THINKING;
+    printf("Philosopher %d puts down forks and starts thinking\n", phil_id + 1);
+    test((phil_id + 1) % NUM_PHILOSOPHERS);
+    test((phil_id + NUM_PHILOSOPHERS - 1) % NUM_PHILOSOPHERS);
+    sem_post(&mutex);
+}
+
+void *philosopher(void *arg) {
+    int phil_id = *(int *)arg;
+
+    while (1) {
+        // Thinking
+        printf("Philosopher %d is thinking\n", phil_id + 1);
+        sleep(2);
+
+        // Hungry, trying to eat
+        take_forks(phil_id);
+
+        // Eating
+        sleep(1);
+
+        // Finished eating, putting forks down
+        put_forks(phil_id);
+    }
+
+    pthread_exit(NULL);
+}
+
+int main() {
+    pthread_t philosophers[NUM_PHILOSOPHERS];
+    int phil_ids[NUM_PHILOSOPHERS];
+
+    // Initialize semaphores
+    sem_init(&mutex, 0, 1);
+    for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
+        sem_init(&phil_sem[i], 0, 0);
+    }
+
+    // Create philosopher threads
+    for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
+        phil_ids[i] = i;
+        pthread_create(&philosophers[i], NULL, philosopher, &phil_ids[i]);
+    }
+
+    // Wait for philosopher threads to finish (will run indefinitely)
+    for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
+        pthread_join(philosophers[i], NULL);
+    }
+
+    // Destroy semaphores
+    sem_destroy(&mutex);
+    for (int i = 0; i < NUM_PHILOSOPHERS; i++) {
+        sem_destroy(&phil_sem[i]);
+    }
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+ Banker's Algorithm 
+#include <stdio.h>
+
+int main() {
+    int n, m, i, j, k;
+
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+
+    printf("Enter the number of resources: ");
+    scanf("%d", &m);
+
+    int alloc[n][m];
+    int max[n][m];
+    int avail[m];
+
+    // Input Allocation Matrix
+    printf("Enter the Allocation Matrix:\n");
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < m; j++) {
+            printf("P%d -> Resource%d: ", i, j);
+            scanf("%d", &alloc[i][j]);
+        }
+    }
+
+    // Input MAX Matrix
+    printf("Enter the MAX Matrix:\n");
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < m; j++) {
+            printf("P%d -> Resource%d: ", i, j);
+            scanf("%d", &max[i][j]);
+        }
+    }
+
+    // Input Available Resources
+    printf("Enter the Available Resources:\n");
+    for (i = 0; i < m; i++) {
+        printf("Resource%d: ", i);
+        scanf("%d", &avail[i]);
+    }
+
+    // Rest of the code remains the same
+    // ...
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+10. First Fit Memory Allocation
+c
+Copy code
+#include <stdio.h>
+
+#define MAX_MEMORY 1000
+
+void firstFit(int memory[], int n, int processSize) {
+    int i;
+    for (i = 0; i < n; i++) {
+        if (memory[i] >= processSize) {
+            memory[i] -= processSize;
+            printf("Memory allocated at block %d\n", i + 1);
+            return;
+        }
+    }
+    printf("Memory allocation failed for process of size %d\n", processSize);
+}
+
+int main() {
+    int memory[MAX_MEMORY];
+    int n, processSize;
+
+    printf("Enter the number of memory blocks: ");
+    scanf("%d", &n);
+
+    printf("Enter the size of each memory block:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &memory[i]);
+    }
+
+    printf("Enter the size of the process: ");
+    scanf("%d", &processSize);
+
+    firstFit(memory, n, processSize);
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+11. Best Fit Memory Allocation
+c
+Copy code
+#include <stdio.h>
+
+#define MAX_MEMORY 1000
+
+void bestFit(int memory[], int n, int processSize) {
+    int bestFitIdx = -1, minFragmentation = MAX_MEMORY;
+
+    for (int i = 0; i < n; i++) {
+        if (memory[i] >= processSize && memory[i] - processSize < minFragmentation) {
+            bestFitIdx = i;
+            minFragmentation = memory[i] - processSize;
+        }
+    }
+
+    if (bestFitIdx != -1) {
+        memory[bestFitIdx] -= processSize;
+        printf("Memory allocated at block %d\n", bestFitIdx + 1);
+    } else {
+        printf("Memory allocation failed for process of size %d\n", processSize);
+    }
+}
+
+int main() {
+    int memory[MAX_MEMORY];
+    int n, processSize;
+
+    printf("Enter the number of memory blocks: ");
+    scanf("%d", &n);
+
+    printf("Enter the size of each memory block:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &memory[i]);
+    }
+
+    printf("Enter the size of the process: ");
+    scanf("%d", &processSize);
+
+    bestFit(memory, n, processSize);
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+12. Worst Fit Memory Allocation
+c
+Copy code
+#include <stdio.h>
+
+#define MAX_MEMORY 1000
+
+void worstFit(int memory[], int n, int processSize) {
+    int worstFitIdx = -1, maxFragmentation = -1;
+
+    for (int i = 0; i < n; i++) {
+        if (memory[i] >= processSize && memory[i] - processSize > maxFragmentation) {
+            worstFitIdx = i;
+            maxFragmentation = memory[i] - processSize;
+        }
+    }
+
+    if (worstFitIdx != -1) {
+        memory[worstFitIdx] -= processSize;
+        printf("Memory allocated at block %d\n", worstFitIdx + 1);
+    } else {
+        printf("Memory allocation failed for process of size %d\n", processSize);
+    }
+}
+
+int main() {
+    int memory[MAX_MEMORY];
+    int n, processSize;
+
+    printf("Enter the number of memory blocks: ");
+    scanf("%d", &n);
+
+    printf("Enter the size of each memory block:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &memory[i]);
+    }
+
+    printf("Enter the size of the process: ");
+    scanf("%d", &processSize);
+
+    worstFit(memory, n, processSize);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+8. Analysis and Simulation of Memory Allocation using MFT (Multiprogramming with Fixed Tasks)
+
+c
+Copy code
+#include <stdio.h>
+
+#define MEMORY_SIZE 1000
+
+void mftSimulation(int memory[], int n, int processSize) {
+    int i, j, start = 0, end;
+
+    for (i = 0; i < n; i++) {
+        end = start + memory[i] - 1;
+
+        if (end < MEMORY_SIZE && memory[i] >= processSize) {
+            printf("Memory allocated from %d to %d\n", start, end);
+            start = end + 1;
+            memory[i] -= processSize;
+            break;
+        } else {
+            printf("Insufficient memory in partition %d\n", i + 1);
+        }
+    }
+
+    if (i == n) {
+        printf("Memory allocation failed for process of size %d\n", processSize);
+    }
+}
+
+int main() {
+    int memory[] = {100, 200, 300}; // Memory partitions
+    int n = sizeof(memory) / sizeof(memory[0]); // Number of partitions
+    int processSize;
+
+    printf("Enter the size of the process: ");
+    scanf("%d", &processSize);
+
+    mftSimulation(memory, n, processSize);
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+9. Analysis and Simulation of Memory Allocation using MVT (Multiprogramming with Variable Tasks)
+
+c
+Copy code
+#include <stdio.h>
+
+#define MEMORY_SIZE 1000
+
+void mvtSimulation(int memory[], int n, int processSize) {
+    int i, start = 0, end;
+
+    for (i = 0; i < n; i++) {
+        if (memory[i] >= processSize) {
+            end = start + processSize - 1;
+            printf("Memory allocated from %d to %d in partition %d\n", start, end, i + 1);
+            memory[i] -= processSize;
+            break;
+        } else {
+            start += memory[i];
+        }
+    }
+
+    if (i == n) {
+        printf("Memory allocation failed for process of size %d\n", processSize);
+    }
+}
+
+int main() {
+    int memory[] = {100, 200, 300}; // Memory partitions
+    int n = sizeof(memory) / sizeof(memory[0]); // Number of partitions
+    int processSize;
+
+    printf("Enter the size of the process: ");
+    scanf("%d", &processSize);
+
+    mvtSimulation(memory, n, processSize);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+13. Implement FIFO (First-In-First-Out) Page Replacement Technique
+
+c
+Copy code
+#include <stdio.h>
+
+#define MAX_PAGES 10
+
+void fifoPageReplacement(int pages[], int n, int capacity) {
+    int pageFrame[capacity];
+    int front = 0, rear = 0;
+
+    for (int i = 0; i < n; i++) {
+        int currentPage = pages[i];
+        int pageHit = 0;
+
+        // Check if the page is already in the frame
+        for (int j = 0; j < capacity; j++) {
+            if (pageFrame[j] == currentPage) {
+                pageHit = 1;
+                break;
+            }
+        }
+
+        if (!pageHit) {
+            // Page fault: Replace the front page in the frame
+            printf("Page %d loaded into frame %d\n", currentPage, front);
+            pageFrame[front] = currentPage;
+            front = (front + 1) % capacity;
+        }
+
+        // Display current state of page frame
+        printf("Page frame: ");
+        for (int j = 0; j < capacity; j++) {
+            printf("%d ", pageFrame[j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int pages[MAX_PAGES] = {1, 3, 0, 3, 5, 6, 3, 2, 5, 0};
+    int n = sizeof(pages) / sizeof(pages[0]);
+    int capacity;
+
+    printf("Enter the capacity of page frame: ");
+    scanf("%d", &capacity);
+
+    fifoPageReplacement(pages, n, capacity);
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+14. Implement LRU (Least Recently Used) Page Replacement Technique
+
+c
+Copy code
+#include <stdio.h>
+
+#define MAX_PAGES 10
+
+void lruPageReplacement(int pages[], int n, int capacity) {
+    int pageFrame[capacity];
+    int counter[MAX_PAGES] = {0};
+    int time = 1;
+
+    for (int i = 0; i < n; i++) {
+        int currentPage = pages[i];
+        int pageHit = 0;
+
+        // Check if the page is already in the frame
+        for (int j = 0; j < capacity; j++) {
+            if (pageFrame[j] == currentPage) {
+                pageHit = 1;
+                counter[currentPage] = time++;
+                break;
+            }
+        }
+
+        if (!pageHit) {
+            // Page fault: Replace the least recently used page in the frame
+            int minCounter = counter[pageFrame[0]];
+            int replaceIndex = 0;
+
+            for (int j = 1; j < capacity; j++) {
+                if (counter[pageFrame[j]] < minCounter) {
+                    minCounter = counter[pageFrame[j]];
+                    replaceIndex = j;
+                }
+            }
+
+            printf("Page %d loaded into frame %d\n", currentPage, replaceIndex);
+            pageFrame[replaceIndex] = currentPage;
+            counter[currentPage] = time++;
+        }
+
+        // Display current state of page frame
+        printf("Page frame: ");
+        for (int j = 0; j < capacity; j++) {
+            printf("%d ", pageFrame[j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int pages[MAX_PAGES] = {1, 3, 0, 3, 5, 6, 3, 2, 5, 0};
+    int n = sizeof(pages) / sizeof(pages[0]);
+    int capacity;
+
+    printf("Enter the capacity of page frame: ");
+    scanf("%d", &capacity);
+
+    lruPageReplacement(pages, n, capacity);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+15. Implement Optimal Page Replacement Technique
+
+c
+Copy code
+#include <stdio.h>
+
+#define MAX_PAGES 10
+
+void optimalPageReplacement(int pages[], int n, int capacity) {
+    int pageFrame[capacity];
+    int futureIndex[MAX_PAGES] = {0};
+
+    for (int i = 0; i < capacity; i++) {
+        pageFrame[i] = -1; // Initialize page frame with -1 indicating an empty slot
+    }
+
+    for (int i = 0; i < n; i++) {
+        int currentPage = pages[i];
+        int pageHit = 0;
+
+        // Check if the page is already in the frame
+        for (int j = 0; j < capacity; j++) {
+            if (pageFrame[j] == currentPage) {
+                pageHit = 1;
+                break;
+            }
+        }
+
+        if (!pageHit) {
+            // Page fault: Replace the page with the farthest future reference
+            int replaceIndex = -1;
+            int maxFutureIndex = -1;
+
+            for (int j = 0; j < capacity; j++) {
+                int futureIdx = futureIndex[pageFrame[j]];
+                if (futureIdx == 0) {
+                    replaceIndex = j;
+                    break;
+                } else if (futureIdx > maxFutureIndex) {
+                    maxFutureIndex = futureIdx;
+                    replaceIndex = j;
+                }
+            }
+
+            printf("Page %d loaded into frame %d\n", currentPage, replaceIndex);
+            pageFrame[replaceIndex] = currentPage;
+        }
+
+        // Update future indices for the remaining references
+        for (int j = i + 1; j < n; j++) {
+            if (pages[j] == currentPage) {
+                futureIndex[currentPage] = j - i;
+                break;
+            }
+        }
+
+        // Display current state of page frame
+        printf("Page frame: ");
+        for (int j = 0; j < capacity; j++) {
+            printf("%d ", pageFrame[j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int pages[MAX_PAGES] = {1, 3, 0, 3, 5, 6, 3, 2, 5, 0};
+    int n = sizeof(pages) / sizeof(pages[0]);
+    int capacity;
+
+    printf("Enter the capacity of page frame: ");
+    scanf("%d", &capacity);
+
+    optimalPageReplacement(pages, n, capacity);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+16. FCFS Disk Scheduling Algorithm
+
+c
+Copy code
+#include <stdio.h>
+#include <stdlib.h>
+
+void fcfsDiskScheduling(int requests[], int n, int initialPosition) {
+    int totalSeekTime = 0;
+
+    printf("Sequence of disk accesses: ");
+    printf("%d ", initialPosition);
+
+    for (int i = 0; i < n; i++) {
+        totalSeekTime += abs(initialPosition - requests[i]);
+        initialPosition = requests[i];
+        printf("%d ", initialPosition);
+    }
+
+    printf("\nTotal Seek Time: %d\n", totalSeekTime);
+}
+
+int main() {
+    int requests[] = {98, 183, 37, 122, 14, 124, 65, 67};
+    int n = sizeof(requests) / sizeof(requests[0]);
+    int initialPosition;
+
+    printf("Enter the initial head position: ");
+    scanf("%d", &initialPosition);
+
+    fcfsDiskScheduling(requests, n, initialPosition);
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+17. Scan Disk Scheduling Algorithm
+
+c
+Copy code
+#include <stdio.h>
+#include <stdlib.h>
+
+void scanDiskScheduling(int requests[], int n, int initialPosition) {
+    int totalSeekTime = 0;
+
+    int direction = 1; // 1 for right, -1 for left
+
+    printf("Sequence of disk accesses: ");
+    
+    while (1) {
+        if (direction == 1) {
+            for (int i = 0; i < n; i++) {
+                if (requests[i] >= initialPosition) {
+                    totalSeekTime += abs(initialPosition - requests[i]);
+                    initialPosition = requests[i];
+                    printf("%d ", initialPosition);
+                }
+            }
+            direction = -1;
+        } else {
+            for (int i = n - 1; i >= 0; i--) {
+                if (requests[i] <= initialPosition) {
+                    totalSeekTime += abs(initialPosition - requests[i]);
+                    initialPosition = requests[i];
+                    printf("%d ", initialPosition);
+                }
+            }
+            direction = 1;
+        }
+
+        if (direction == 1) {
+            int minRequest = 1000;
+            for (int i = 0; i < n; i++) {
+                if (requests[i] >= initialPosition && requests[i] < minRequest) {
+                    minRequest = requests[i];
+                }
+            }
+
+            if (minRequest == 1000) {
+                break;
+            }
+
+            totalSeekTime += abs(initialPosition - minRequest);
+            initialPosition = minRequest;
+            printf("%d ", initialPosition);
+        } else {
+            int maxRequest = -1;
+            for (int i = n - 1; i >= 0; i--) {
+                if (requests[i] <= initialPosition && requests[i] > maxRequest) {
+                    maxRequest = requests[i];
+                }
+            }
+
+            if (maxRequest == -1) {
+                break;
+            }
+
+            totalSeekTime += abs(initialPosition - maxRequest);
+            initialPosition = maxRequest;
+            printf("%d ", initialPosition);
+        }
+    }
+
+    printf("\nTotal Seek Time: %d\n", totalSeekTime);
+}
+
+int main() {
+    int requests[] = {98, 183, 37, 122, 14, 124, 65, 67};
+    int n = sizeof(requests) / sizeof(requests[0]);
+    int initialPosition;
+
+    printf("Enter the initial head position: ");
+    scanf("%d", &initialPosition);
+
+    scanDiskScheduling(requests, n, initialPosition);
+
+    return 0;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+18. C-Scan Disk Scheduling Algorithm
+
+c
+Copy code
+#include <stdio.h>
+#include <stdlib.h>
+
+void cScanDiskScheduling(int requests[], int n, int initialPosition) {
+    int totalSeekTime = 0;
+
+    printf("Sequence of disk accesses: ");
+
+    for (int i = initialPosition; i <= 199; i++) {
+        for (int j = 0; j < n; j++) {
+            if (requests[j] == i) {
+                totalSeekTime += abs(initialPosition - requests[j]);
+                initialPosition = requests[j];
+                printf("%d ", initialPosition);
+            }
+        }
+    }
+
+    totalSeekTime += abs(initialPosition - 199);
+    initialPosition = 0;
+    printf("199 0 ");
+
+    for (int i = 0; i < n; i++) {
+        if (requests[i] <= initialPosition) {
+            totalSeekTime += abs(initialPosition - requests[i]);
+            initialPosition = requests[i];
+            printf("%d ", initialPosition);
+        }
+    }
+
+    printf("\nTotal Seek Time: %d\n", totalSeekTime);
+}
+
+int main() {
+    int requests[] = {98, 183, 37, 122, 14, 124, 65, 67};
+    int n = sizeof(requests) / sizeof(requests[0]);
+    int initialPosition;
+
+    printf("Enter the initial head position: ");
+    scanf("%d", &initialPosition);
+
+    cScanDiskScheduling(requests, n, initialPosition);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+19. Look Disk Scheduling Algorithm
+
+c
+Copy code
+#include <stdio.h>
+#include <stdlib.h>
+
+void lookDiskScheduling(int requests[], int n, int initialPosition) {
+    int totalSeekTime = 0;
+
+    printf("Sequence of disk accesses: ");
+    
+    for (int i = 0; i < n; i++) {
+        if (requests[i] >= initialPosition) {
+            totalSeekTime += abs(initialPosition - requests[i]);
+            initialPosition = requests[i];
+            printf("%d ", initialPosition);
+        }
+    }
+
+    for (int i = n - 1; i >= 0; i--) {
+        if (requests[i] < initialPosition) {
+            totalSeekTime += abs(initialPosition - requests[i]);
+            initialPosition = requests[i];
+            printf("%d ", initialPosition);
+        }
+    }
+
+    printf("\nTotal Seek Time: %d\n", totalSeekTime);
+}
+
+int main() {
+    int requests[] = {98, 183, 37, 122, 14, 124, 65, 67};
+    int n = sizeof(requests) / sizeof(requests[0]);
+    int initialPosition;
+
+    printf("Enter the initial head position: ");
+    scanf("%d", &initialPosition);
+
+    lookDiskScheduling(requests, n, initialPosition);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+20. Implementation of File Organization Techniques using Single Level Directory Technique
+
+c
+Copy code
+#include <stdio.h>
+#include <string.h>
+
+struct File {
+    char name[30];
+    int size;
+};
+
+struct SingleLevelDirectory {
+    struct File files[50];
+    int count;
+};
+
+void displayFiles(struct SingleLevelDirectory directory) {
+    if (directory.count == 0) {
+        printf("No files in the directory\n");
+        return;
+    }
+
+    printf("Files in the directory:\n");
+    for (int i = 0; i < directory.count; i++) {
+        printf("File Name: %s, Size: %d KB\n", directory.files[i].name, directory.files[i].size);
+    }
+}
+
+int main() {
+    struct SingleLevelDirectory directory;
+    directory.count = 0;
+
+    // Adding files to the directory
+    strcpy(directory.files[0].name, "file1.txt");
+    directory.files[0].size = 100;
+    directory.count++;
+
+    strcpy(directory.files[1].name, "file2.txt");
+    directory.files[1].size = 150;
+    directory.count++;
+
+    // Displaying files in the directory
+    displayFiles(directory);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+21. Implementation of File Organization Techniques using Two Level Technique
+
+c
+Copy code
+#include <stdio.h>
+#include <string.h>
+
+struct File {
+    char name[30];
+    int size;
+};
+
+struct UserDirectory {
+    char username[30];
+    struct File files[50];
+    int count;
+};
+
+struct TwoLevelDirectory {
+    struct UserDirectory users[50];
+    int count;
+};
+
+void displayFiles(struct TwoLevelDirectory directory) {
+    if (directory.count == 0) {
+        printf("No users in the directory\n");
+        return;
+    }
+
+    printf("Users in the directory:\n");
+    for (int i = 0; i < directory.count; i++) {
+        printf("User: %s\n", directory.users[i].username);
+        for (int j = 0; j < directory.users[i].count; j++) {
+            printf("\tFile Name: %s, Size: %d KB\n", directory.users[i].files[j].name, directory.users[i].files[j].size);
+        }
+    }
+}
+
+int main() {
+    struct TwoLevelDirectory directory;
+    directory.count = 0;
+
+    // Adding users and files to the directory
+    strcpy(directory.users[0].username, "user1");
+    strcpy(directory.users[0].files[0].name, "file1.txt");
+    directory.users[0].files[0].size = 100;
+    directory.users[0].count++;
+
+    strcpy(directory.users[1].username, "user2");
+    strcpy(directory.users[1].files[0].name, "file2.txt");
+    directory.users[1].files[0].size = 150;
+    directory.users[1].count++;
+
+    // Displaying files in the directory
+    displayFiles(directory);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+22. Implementation of File Organization Techniques using Hierarchical Single Level Technique
+
+c
+Copy code
+#include <stdio.h>
+#include <string.h>
+
+struct File {
+    char name[30];
+    int size;
+};
+
+struct DirectoryNode {
+    char name[30];
+    struct File files[50];
+    int fileCount;
+    struct DirectoryNode* subDirectories[50];
+    int subDirectoryCount;
+};
+
+void displayFiles(struct DirectoryNode* directory) {
+    if (directory->fileCount == 0 && directory->subDirectoryCount == 0) {
+        printf("No files or subdirectories in the directory %s\n", directory->name);
+        return;
+    }
+
+    printf("Files in the directory %s:\n", directory->name);
+    for (int i = 0; i < directory->fileCount; i++) {
+        printf("File Name: %s, Size: %d KB\n", directory->files[i].name, directory->files[i].size);
+    }
+
+    printf("Subdirectories in the directory %s:\n", directory->name);
+    for (int i = 0; i < directory->subDirectoryCount; i++) {
+        printf("%s\n", directory->subDirectories[i]->name);
+    }
+}
+
+int main() {
+    struct DirectoryNode rootDirectory;
+    strcpy(rootDirectory.name, "root");
+    rootDirectory.fileCount = 0;
+    rootDirectory.subDirectoryCount = 0;
+
+    // Adding files to the root directory
+    strcpy(rootDirectory.files[0].name, "file1.txt");
+    rootDirectory.files[0].size = 100;
+    rootDirectory.fileCount++;
+
+    // Adding subdirectories to the root directory
+    struct DirectoryNode subDirectory1;
+    strcpy(subDirectory1.name, "subdir1");
+    subDirectory1.fileCount = 0;
+    subDirectory1.subDirectoryCount = 0;
+
+    rootDirectory.subDirectories[0] = &subDirectory1;
+    rootDirectory.subDirectoryCount++;
+
+    // Adding files to the subdirectory
+    strcpy(subDirectory1.files[0].name, "file2.txt");
+    subDirectory1.files[0].size = 150;
+    subDirectory1.fileCount++;
+
+    // Displaying files in the root directory
+    displayFiles(&rootDirectory);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+23. Implementation of File Allocation Strategies using Linked Method
+
+c
+Copy code
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct File {
+    char name[30];
+    int size;
+    int startBlock;
+    struct File* next;
+};
+
+struct FileAllocationTable {
+    struct File* head;
+};
+
+void initializeFileAllocationTable(struct FileAllocationTable* table) {
+    table->head = NULL;
+}
+
+void allocateFile(struct FileAllocationTable* table, char name[], int size) {
+    struct File* newFile = (struct File*)malloc(sizeof(struct File));
+    strcpy(newFile->name, name);
+    newFile->size = size;
+    newFile->next = NULL;
+
+    if (table->head == NULL) {
+        newFile->startBlock = 0;
+        table->head = newFile;
+    } else {
+        struct File* current = table->head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+
+        newFile->startBlock = current->startBlock + current->size;
+        current->next = newFile;
+    }
+
+    printf("File '%s' allocated starting from block %d\n", name, newFile->startBlock);
+}
+
+void displayFileAllocationTable(struct FileAllocationTable* table) {
+    if (table->head == NULL) {
+        printf("No files allocated\n");
+        return;
+    }
+
+    printf("File Allocation Table:\n");
+    struct File* current = table->head;
+    while (current != NULL) {
+        printf("File Name: %s, Size: %d KB, Starting Block: %d\n", current->name, current->size, current->startBlock);
+        current = current->next;
+    }
+}
+
+int main() {
+    struct FileAllocationTable table;
+    initializeFileAllocationTable(&table);
+
+    allocateFile(&table, "file1.txt", 100);
+    allocateFile(&table, "file2.txt", 150);
+
+    displayFileAllocationTable(&table);
+
+    return 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+24. Implementation of File Allocation Strategies using Hierarchical Technique
+
+c
+Copy code
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct File {
+    char name[30];
+    int size;
+};
+
+struct Directory {
+    char name[30];
+    struct File files[50];
+    int fileCount;
+    struct Directory* subDirectories[50];
+    int subDirectoryCount;
+};
+
+void initializeDirectory(struct Directory* directory, char name[]) {
+    strcpy(directory->name, name);
+    directory->fileCount = 0;
+    directory->subDirectoryCount = 0;
+}
+
+void allocateFileInDirectory(struct Directory* directory, char name[], int size) {
+    if (directory->fileCount < 50) {
+        strcpy(directory->files[directory->fileCount].name, name);
+        directory->files[directory->fileCount].size = size;
+        directory->fileCount++;
+        printf("File '%s' allocated in directory '%s'\n", name, directory->name);
+    } else {
+        printf("File allocation failed. Directory '%s' is full.\n", directory->name);
+    }
+}
+
+void createSubDirectory(struct Directory* parentDirectory, char name[]) {
+    if (parentDirectory->subDirectoryCount < 50) {
+        struct Directory* subDirectory = (struct Directory*)malloc(sizeof(struct Directory));
+        initializeDirectory(subDirectory, name);
+        parentDirectory->subDirectories[parentDirectory->subDirectoryCount] = subDirectory;
+        parentDirectory->subDirectoryCount++;
+        printf("Subdirectory '%s' created in directory '%s'\n", name, parentDirectory->name);
+    } else {
+        printf("Subdirectory creation failed. Directory '%s' is full.\n", parentDirectory->name);
+    }
+}
+
+void displayDirectoryContents(struct Directory* directory) {
+    printf("Contents of directory '%s':\n", directory->name);
+
+    // Display files
+    for (int i = 0; i < directory->fileCount; i++) {
+        printf("File Name: %s, Size: %d KB\n", directory->files[i].name, directory->files[i].size);
+    }
+
+    // Display subdirectories
+    for (int i = 0; i < directory->subDirectoryCount; i++) {
+        displayDirectoryContents(directory->subDirectories[i]);
+    }
+}
+
+int main() {
+    struct Directory rootDirectory;
+    initializeDirectory(&rootDirectory, "root");
+
+    allocateFileInDirectory(&rootDirectory, "file1.txt", 100);
+    allocateFileInDirectory(&rootDirectory, "file2.txt", 150);
+
+    createSubDirectory(&rootDirectory, "subdir1");
+    allocateFileInDirectory(rootDirectory.subDirectories[0], "file3.txt", 120);
+
+    displayDirectoryContents(&rootDirectory);
+
+    return 0;
+}
